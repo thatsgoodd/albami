@@ -1,5 +1,6 @@
-const port = 3000;
+const port = 5000;
 const express = require("express");
+const bodyParser = require('body-parser');
 const path = require("path");
 const router = require("./router");
 const app = express();
@@ -19,6 +20,8 @@ let test = async () => {
 
 // POST 요청의 본문을 파싱하기 위한 미들웨어
     app.use(express.urlencoded({extended: true}));
+
+    app.use(bodyParser.json());
 
 // 루트 경로에 대한 GET 요청에 대한 응답
     app.get("/", (req, res) => {
@@ -110,8 +113,6 @@ let test = async () => {
                     otherAllowance: otherAllowance.toFixed(0)
                 };
             });
-
-            // JSON 형식으로 계산된 데이터 전송
             res.json(jobsWithIncome);
         });
     });
@@ -119,65 +120,147 @@ let test = async () => {
 
 //월별 총급여
     app.get('/jobs/total-income', (req, res) => {
-        // const { yearMonth } = req.query; // HTML 폼에서 제출된 연도와 월 값
-        // console.log(`Received yearMonth: ${yearMonth}`);
+        const { selectedMonth } = req.query; // 클라이언트에서 선택한 연도와 월 정보 (예: '2023-01')
+        console.log(`received ${selectedMonth}`);
+        // 쿼리에서 선택한 월 정보를 기반으로 데이터를 필터링하고 계산
         db.query(`
         SELECT 
-        hourlyWage,
-        startTime,
-        endTime
-        
-        FROM MyAlba
-    `, (err, results) => {
+            DATE_FORMAT(Schedules.date, '%Y-%m') AS work_month,
+            ROUND(MyAlba.hourlyWage, 0) AS hourlyWage,
+            ROUND(SUM(
+                CASE
+                    WHEN HOUR(Schedules.startTime) >= 22 OR HOUR(Schedules.endTime) <= 6 THEN
+                        TIMESTAMPDIFF(HOUR, Schedules.startTime, Schedules.endTime) * MyAlba.hourlyWage * 1.5 -- 야간수당
+                    ELSE
+                        TIMESTAMPDIFF(HOUR, Schedules.startTime, Schedules.endTime) * MyAlba.hourlyWage
+                END
+            ), 0) AS monthly_salary_with_night_shift,
+            ROUND(CASE 
+                WHEN SUM(TIMESTAMPDIFF(HOUR, Schedules.startTime, Schedules.endTime)) >= 40 THEN -- 주휴수당 기준 (예: 주 40시간 이상 근무)
+                    SUM(TIMESTAMPDIFF(HOUR, Schedules.startTime, Schedules.endTime) * MyAlba.hourlyWage) / 40 * 8 -- 주휴수당 계산 예: 주 8시간 추가 지급
+                ELSE
+                    0
+            END, 0) AS weekly_holiday_allowance,
+            ROUND(
+                SUM(
+                    CASE
+                        WHEN HOUR(Schedules.startTime) >= 22 OR HOUR(Schedules.endTime) <= 6 THEN
+                            TIMESTAMPDIFF(HOUR, Schedules.startTime, Schedules.endTime) * MyAlba.hourlyWage * 1.5
+                        ELSE
+                            TIMESTAMPDIFF(HOUR, Schedules.startTime, Schedules.endTime) * MyAlba.hourlyWage
+                    END
+                ) +
+                CASE 
+                    WHEN SUM(TIMESTAMPDIFF(HOUR, Schedules.startTime, Schedules.endTime)) >= 40 THEN
+                        SUM(TIMESTAMPDIFF(HOUR, Schedules.startTime, Schedules.endTime) * MyAlba.hourlyWage) / 40 * 8
+                    ELSE
+                        0
+                END, 0
+            ) AS total_salary
+        FROM Schedules
+        JOIN MyAlba ON Schedules.idAlba = MyAlba.idAlba  
+        WHERE DATE_FORMAT(Schedules.date, '%Y-%m') = ?
+        GROUP BY work_month, MyAlba.hourlyWage
+        ORDER BY work_month;
+    `,   [selectedMonth], (err, results) => {
             if (err) {
                 console.error('Error fetching data from database: ', err);
                 res.status(500).send('Internal Server Error');
                 return;
             }
 
-            results.forEach((row) => {
-                //야간수당계산
-                const startTime = new Date(`1970-01-01T${row.startTime}`);
-                let endTime = new Date(`1970-01-01T${row.endTime}`);
+            // 해당 월의 데이터가 없을 경우 빈 배열을 반환하거나 다른 처리를 수행할 수 있음
+            if (results.length === 0) {
+                res.status(404).send('No data found for the selected month.');
+                return;
+            }
 
-                // 종료 시간이 시작 시간보다 이른 경우 다음 날로 처리
-                if (endTime < startTime) {
-                    endTime.setDate(endTime.getDate() + 1);
-                }
+            // 해당 월의 합계 급여 계산
+            const monthlyIncome = {
+                totalIncome: 0,
+                totalWeekIncome: 0,
+                totalNightIncome: 0,
+                totalEtcIncome: 0
+            };
 
-                const hoursDiff = (endTime - startTime) / (1000 * 60 * 60);
-                // 야간 근무 시간 계산
-                let nightHours = 0;
+            results.forEach(row => {
+                const totalSalary = Number(row.total_salary);
+                const holidayAllowance = Number(row.weekly_holiday_allowance);
+                const nightAllowance = Number(row.monthly_salary_with_night_shift);
+                const otherAllowance =Number(totalSalary) * 0.033;
 
-                for (let hour = startTime.getHours(); hour < startTime.getHours() + hoursDiff; hour++) {
-                    const currentHour = hour % 24;
-                    if (currentHour >= nightStartHour || currentHour < nightEndHour) {
-                        nightHours += 1 / hoursDiff;
-                    }
-                }
-                totalNightHours += nightHours;
-                totalnightAllowance = totalNightHours * row.hourlyWage * 1.5;
-                //일반수당
-                const salary = row.hourlyWage * (hoursDiff - nightHours);
-                tSalary += salary;
-                //주휴수당
-                totalholidayAllowance += (pWorkingHours / 40) * 8 * row.hourlyWage;
+                monthlyIncome.totalIncome += totalSalary;
+                monthlyIncome.totalWeekIncome += holidayAllowance;
+                monthlyIncome.totalNightIncome += nightAllowance;
+                monthlyIncome.totalEtcIncome += otherAllowance;
             });
 
-            // 주휴수당, 야간수당, 기타 수당 계산
-            const totalSalary = tSalary + totalholidayAllowance + totalnightAllowance + tSalary * 0.033;
-            const holidayAllowance = totalholidayAllowance;
-            const nightAllowance = totalnightAllowance;
-            const otherAllowance = tSalary * 0.033;
+            // 소수점 제거
+            monthlyIncome.totalEtcIncome = monthlyIncome.totalEtcIncome.toFixed(0);
 
-            res.send({
-                totalIncome: totalSalary,
-                totalWeekIncome: holidayAllowance,
-                totalNightIncome: nightAllowance,
-                totalEtcIncome: otherAllowance
-            });
+            res.json(monthlyIncome);
         });
     });
+
+//     app.get('/jobs/total-income', (req, res) => {
+//         // const { yearMonth } = req.query; // HTML 폼에서 제출된 연도와 월 값
+//         // console.log(`Received yearMonth: ${yearMonth}`);
+//         db.query(`
+//         SELECT
+//         hourlyWage,
+//         startTime,
+//         endTime
+//         FROM MyAlba
+//     `, (err, results) => {
+//             if (err) {
+//                 console.error('Error fetching data from database: ', err);
+//                 res.status(500).send('Internal Server Error');
+//                 return;
+//             }
+//
+//             results.forEach((row) => {
+//                 //야간수당계산
+//                 const startTime = new Date(`1970-01-01T${row.startTime}`);
+//                 let endTime = new Date(`1970-01-01T${row.endTime}`);
+//
+//                 // 종료 시간이 시작 시간보다 이른 경우 다음 날로 처리
+//                 if (endTime < startTime) {
+//                     endTime.setDate(endTime.getDate() + 1);
+//                 }
+//
+//                 const hoursDiff = (endTime - startTime) / (1000 * 60 * 60);
+//                 // 야간 근무 시간 계산
+//                 let nightHours = 0;
+//
+//                 for (let hour = startTime.getHours(); hour < startTime.getHours() + hoursDiff; hour++) {
+//                     const currentHour = hour % 24;
+//                     if (currentHour >= nightStartHour || currentHour < nightEndHour) {
+//                         nightHours += 1 / hoursDiff;
+//                     }
+//                 }
+//                 totalNightHours += nightHours;
+//                 totalnightAllowance = totalNightHours * row.hourlyWage * 1.5;
+//                 //일반수당
+//                 const salary = row.hourlyWage * (hoursDiff - nightHours);
+//                 tSalary += salary;
+//                 //주휴수당
+//                 totalholidayAllowance += (pWorkingHours / 40) * 8 * row.hourlyWage;
+//             });
+//
+//             // 주휴수당, 야간수당, 기타 수당 계산
+//             const totalSalary = tSalary + totalholidayAllowance + totalnightAllowance + tSalary * 0.033;
+//             const holidayAllowance = totalholidayAllowance;
+//             const nightAllowance = totalnightAllowance;
+//             const otherAllowance = tSalary * 0.033;
+//
+//             res.send({
+//                 totalIncome: totalSalary.toFixed(0),
+//                 totalWeekIncome: holidayAllowance.toFixed(0),
+//                 totalNightIncome: nightAllowance.toFixed(0),
+//                 totalEtcIncome: otherAllowance.toFixed(0)
+//             });
+//         });
+//     });
 
 // Use the router
     app.use("/", router);

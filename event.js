@@ -186,11 +186,8 @@ async function fetchJobsIncome() {
                             details.classList.remove('animating');
                         }, { once: true });
                     }
-
-
                 });
             });
-
             adjustParentHeight(); // 처음 데이터를 불러올 때 높이 조정
         });
 }
@@ -207,14 +204,14 @@ function adjustParentHeight() {
 }
 
 // 총 수입을 fetch하는 함수
-async function fetchTotalIncome() {
+async function fetchTotalIncome(data) {
     const totalIncomeResult = document.getElementById('totalIncome');
     const weekIncomeResult = document.getElementById('weekIncome');
     const nightIncomeResult = document.getElementById('nightIncome');
     const etcIncomeResult = document.getElementById('etcIncome');
 
-    return fetch('/jobs/total-income')
-        .then(response => response.json())
+    return fetch(data)
+        //.then(response => response.json())
         .then(data => {
             console.log(`print totalIncome: ${data.totalIncome}`);
             totalIncomeResult.innerHTML = `￦${data.totalIncome}`;
@@ -224,6 +221,22 @@ async function fetchTotalIncome() {
 
         })
         .catch(error => console.error('Error fetching total income:', error));
+}
+
+// 월 표시
+async function displaySelectedMonth() {
+    const monthInput = document.getElementById('yearMonth').value;
+    const url = `/jobs/total-income?selectedMonth=${monthInput}`;
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log('Server response:', data);
+    if (monthInput) {
+        const date = new Date(monthInput);
+        const month = date.toLocaleString('default', {month: 'long'});
+        const output = document.getElementById('monthResult');
+        output.textContent = `${month} 총 급여`;
+        await fetchTotalIncome(data);
+    }
 }
 
 // totalBtn의 상태에 따라 displaySelectedMonth() 결과를 처리하는 함수
@@ -236,48 +249,3 @@ function handleMonthDisplay() {
         output.textContent = ''; // totalBtn이 비활성화 상태일 때 결과를 비움
     }
 }
-
-// 월 표시
-function displaySelectedMonth() {
-    const monthInput = document.getElementById('yearMonth').value;
-    if (monthInput) {
-        const date = new Date(monthInput);
-        const month = date.toLocaleString('default', {month: 'long'});
-        const output = document.getElementById('monthResult');
-        output.textContent = `${month} 총 급여`;
-    }
-}
-
-// document.addEventListener('DOMContentLoaded', () => {
-//     const salaryForm = document.getElementById('monthForm');
-//
-//     function submitForm() {
-//         const yearMonth = document.getElementById('yearMonth').value;
-//         console.log(`Selected yearMonth: ${yearMonth}`);
-//         window.location.href = `/jobs/total-income?yearMonth=${yearMonth}`;
-//     }
-//
-//     // Add event listener for form data change
-//     document.getElementById('yearMonth').addEventListener('change', submitForm);
-//
-// });
-
-
-/*
-document.getElementById('yearMonth').addEventListener('change', function () {
-    handleMonthDisplay();
-});
-
-function handleMonthDisplay() {
-    const yearMonth = document.getElementById('yearMonth').value;
-    fetch(`/jobs/total-income?yearMonth=${yearMonth}`)
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('totalIncome').textContent = `총 수입: ￦${data.totalIncome}`;
-            document.getElementById('weekIncome').textContent = `주간 수당: ￦${data.totalWeekIncome}`;
-            document.getElementById('nightIncome').textContent = `야간 수당: ￦${data.totalNightIncome}`;
-            document.getElementById('etcIncome').textContent = `기타 수당: ￦${data.totalEtcIncome}`;
-        })
-        .catch(error => console.error('Error fetching total income:', error));
-}
-*/
