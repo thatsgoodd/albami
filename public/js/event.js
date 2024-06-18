@@ -47,12 +47,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const etcIncomeResult = document.getElementById('etcIncome');
     const logo2 = document.getElementById('logo2');
 
-    // Check if all necessary elements are correctly selected
-    // if (!perJobButton || !totalBtn || !jobsIncomeResult || !totalIncomeResult || !weekIncomeResult || !nightIncomeResult || !etcIncomeResult || !logo2) {
-    //     console.error('One or more elements are not found. Please check your HTML structure.');
-    //     return;
-    // }
-
     if (!perJobButton) {
         console.error('perJobButton');
         return;
@@ -204,13 +198,13 @@ function adjustParentHeight() {
 }
 
 // 총 수입을 fetch하는 함수
-async function fetchTotalIncome(data) {
+async function fetchTotalIncome() {
     const totalIncomeResult = document.getElementById('totalIncome');
     const weekIncomeResult = document.getElementById('weekIncome');
     const nightIncomeResult = document.getElementById('nightIncome');
     const etcIncomeResult = document.getElementById('etcIncome');
 
-    return fetch(data)
+    return fetch()
         //.then(response => response.json())
         .then(data => {
             console.log(`print totalIncome: ${data.totalIncome}`);
