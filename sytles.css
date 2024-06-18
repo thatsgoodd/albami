@@ -1,0 +1,296 @@
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #EAEAEA;
+}
+header{
+    display: flex;
+    position: absolute;
+    width: 1670px;
+    height: 130px;
+    left: 110px;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100px;
+    height: 80px;
+}
+.logo img{
+    width: 300px;
+    height: 150px;
+}
+/*네이게이션바*/
+.navbar {
+    display: flex;
+    position: fixed;
+    align-items: center; /*수직방향 정렬*/
+    justify-content: center;
+    background-color: white;
+    width: 110px;
+    height: 100%;
+    padding: 10px;
+    left: 0;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-links {
+    list-style: none; /* 리스트 아이템 불릿 제거 */
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-direction: column; /* 세로 정렬 */
+    gap: 20px; /* 리스트 아이템 간의 간격 설정 */
+}
+
+.nav-links li{
+    display: flex;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+.nav-links a img {
+    max-width: 100px;
+    height: auto;
+    display: block;
+}
+
+/* 내 아르바이트 부분 */
+.frame2{
+    display: flex;
+    position: absolute;
+    width: 1670px;
+    height: auto;
+    left: 230px;
+    top: 169px;
+}
+/* '내 아르바이트' 이름 */
+.frame2 h1{
+    display: flex;
+    position: relative;
+    left: 100px;
+    top: 0;
+    margin:0;
+    height: 50px;
+}
+
+.frame2-1{
+    overflow: hidden;
+    transition: height 0.3s ease;
+    display: block;
+    position: absolute;
+    background-color: white;
+    top: 80px;
+    left: 100px;
+    border-top-left-radius: 19px;
+    border-top-right-radius: 19px;
+    width: 85%;
+    height: auto;
+    min-height: 702px;
+    padding: 50px;
+}
+
+.cHeader{
+    display: flex;
+    width: 100%;
+    height: 150px;
+}
+.rectangle{
+    overflow: hidden;
+    transition: height 0.3s ease;
+    border: 1px solid #704D41;
+    border-bottom: none;
+    border-top-left-radius: 19px;
+    display: block;
+    width: 100%;
+    height: auto;
+    min-height: 600px;
+}
+
+.rectangle img{
+    display: flex;
+    padding: 70px;
+    position: fixed;
+    right: 29px;
+    bottom: -75px;
+}
+
+.rectangle h1{
+    display: flex;
+    justify-content: center;
+    font-size: 25px;
+    text-align: center;
+    margin-right: 38%;
+    margin-left: 38%;
+}
+
+.perJobBtn {
+    display: block;
+    position: absolute;
+    height: 50px;
+    width: 100px;
+    border: 1px solid #704D41;
+    border-top-left-radius: 5px;
+    border-bottom: none;
+    background-color: white;
+    font-weight: bold;
+    font-size: 17px;
+    top: 150px;
+    right: 147px;
+}
+
+.totalBtn{
+    display: block;
+    position: absolute;
+    height: 50px;
+    width: 100px;
+    border: 1px solid #704D41;
+    border-top-right-radius: 5px;
+    border-bottom: none;
+    background-color: white;
+    font-weight: bold;
+    font-size: 17px;
+    top: 150px;
+    right: 48px;
+}
+
+/* 폼 요소 스타일링 */
+input[type="month"] {
+    position: absolute;
+    padding: 8px;
+    border: none;
+    font-size: 30px;
+    left: 633px;
+    top: 55px;
+}
+
+/* 라벨 스타일링 */
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+#monthResult{
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 286px;
+    top: 301px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #704D41;
+}
+
+.date{
+    display: flex;
+    height: 35px;
+    font-size: 30px;
+    font-weight: bold;
+    justify-content: center;
+    position: absolute;
+    left: 665px;
+    top: 60px;
+}
+
+#jobs{
+    display: block;
+    position: absolute;
+    font-weight: 500;
+    left: 200px;
+    top: 300px;
+    font-size: 25px;
+}
+
+.job-item {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 5px;
+    width: 270%;
+}
+
+.job-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.details-btn {
+    background-color: #D4B39C;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.details-btn:hover {
+    background-color: #0056b3;
+}
+
+.job-details {
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.expanded .job-details {
+    display: block;
+}
+
+#logo2{
+    position: absolute;
+    left: 120px;
+    top: 220px;
+}
+
+
+#totalIncome {
+    width: auto;
+    height: auto;
+    position: absolute;
+    left: 550px;
+    top: 300px;
+    font-size: 40px;
+    font-weight: 100;
+}
+
+#weekIncome {
+    display: flex;
+    position: absolute;
+    font-size: 30px;
+    font-weight: bold;
+    left: 200px;
+    top: 430px;
+}
+
+#nightIncome {
+    display: flex;
+    position: absolute;
+    font-size: 30px;
+    font-weight: bold;
+    left: 200px;
+    top: 500px;
+}
+
+#etcIncome {
+    display: flex;
+    position: absolute;
+    font-size: 30px;
+    font-weight: bold;
+    left: 200px;
+    top: 570px;
+}

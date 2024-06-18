@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albami</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/event.js"></script>
+</head>
+<body>
+<header>
+    <div class="logo"><img src="/images/bigLogo.png" alt="albamiLogo"></div>
+</header>
+<nav class="navbar">
+    <ul class="nav-links">
+        <li class="menu"><a href="#home"><img src="/images/menuIcon.png" alt="menu"></a></li>
+        <li><a href="#home"><img src="/images/calanderIcon.png" alt="calander"></a></li>
+        <li><a href="#about"><img src="/images/myJobIcon.png" alt="myJob"></a></li>
+        <li><a href="#services"><img src="/images/walletIcon.png" alt="wallet"></a></li>
+        <li><a href="#contact"><img src="/images/planIcon.png" alt="plan"></a></li>
+        <li><a href="#contact"><img src="/images/lawIcon.png" alt="law"></a></li>
+    </ul>
+</nav>
+<div class="frame2">
+    <h1>급여 기록 관리</h1>
+    <div class="frame2-1">
+        <div class="cHeader">
+            <form class="month" id="monthForm">
+                <label for="yearMonth"></label>
+                <input type="month" id="yearMonth" name="yearMonth">
+            </form>
+            <div id="monthResult"></div>
+        </div>
+        <div class="rectangle"><img src="/images/albam.png" alt=" ">
+            <!--        알바별-->
+            <button class="perJobBtn" id="perJob" onclick="toggleColors1()">알바별</button>
+            <div id="jobs"></div>
+            <!--        총내역-->
+            <button class="totalBtn" id="totalBtn" onClick="toggleColors2()">총 내역</button>
+            <div id="result">
+                <div id="totalIncome"></div>
+                <div id="weekIncome"></div>
+                <div id="nightIncome"></div>
+                <div id="etcIncome"></div>
+                <img id="logo2" src="/images/logo2.png" alt="logo2" style="display: none;">
+            </div>
+        </div>
+
+
+
+        <script src="/js/event.js"></script>
+    </div>
+</div>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albami</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <script src="/js/event.js"></script>
+</head>
+<body>
+<header>
+    <div class="logo"><img src="/images/bigLogo.png" alt="albamiLogo"></div>
+</header>
+<nav class="navbar">
+    <ul class="nav-links">
+        <li class="menu"><a href="#home"><img src="/images/menuIcon.png" alt="menu"></a></li>
+        <li><a href="#home"><img src="/images/calanderIcon.png" alt="calander"></a></li>
+        <li><a href="#about"><img src="/images/myJobIcon.png" alt="myJob"></a></li>
+        <li><a href="#services"><img src="/images/walletIcon.png" alt="wallet"></a></li>
+        <li><a href="#contact"><img src="/images/planIcon.png" alt="plan"></a></li>
+        <li><a href="#contact"><img src="/images/lawIcon.png" alt="law"></a></li>
+    </ul>
+</nav>
+<div class="frame2">
+    <h1>급여 기록 관리</h1>
+    <div class="frame2-1">
+        <div class="cHeader">
+            <form class="month" id="monthForm">
+                <label for="yearMonth"></label>
+                <input type="month" id="yearMonth" name="yearMonth">
+            </form>
+            <div id="monthResult"></div>
+        </div>
+        <div class="rectangle"><img src="/images/albam.png" alt=" ">
+            <!--        알바별-->
+            <button class="perJobBtn" id="perJob" onclick="toggleColors1()">알바별</button>
+            <div id="jobs"></div>
+            <!--        총내역-->
+            <button class="totalBtn" id="totalBtn" onClick="toggleColors2()">총 내역</button>
+            <div id="result">
+                <div id="totalIncome"></div>
+                <div id="weekIncome"></div>
+                <div id="nightIncome"></div>
+                <div id="etcIncome"></div>
+                <img id="logo2" src="/images/logo2.png" alt="logo2" style="display: none;">
+            </div>
+        </div>
+
+
+
+        <script src="/js/event.js"></script>
+    </div>
+</div>
+</body>
+</html>
