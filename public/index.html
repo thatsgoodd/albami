@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Albami - 내 아르바이트 관리</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="container">
+    <div class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <img src="img/알바미 로고.png" alt="Albami" class="sidebar-logo">
+            <span class="menu-btn" id="menu-btn">☰</span>
+        </div>
+        <div class="user-info">
+            <p>닉네임<br><span>이메일주소</span></p>
+            <span class="logout-icon">🔓</span>
+        </div>
+        <a href="#"><i class="icon">📅</i> <span class="text">캘린더</span></a>
+        <a href="#"><i class="icon">📄</i> <span class="text">내 아르바이트 관리</span></a>
+        <a href="#"><i class="icon">💼</i> <span class="text">급여 기록 관리</span></a>
+        <a href="#"><i class="icon">👥</i> <span class="text">내 친구 일정</span></a>
+        <a href="#"><i class="icon">💰</i> <span class="text">저축계획서</span></a>
+        <a href="#"><i class="icon">⚖️</i> <span class="text">아르바이트 법적사항</span></a>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <img src="img/알바미 로고.png" alt="Albami" class="main-logo">
+        </div>
+        <h1>내 아르바이트 관리</h1>
+        <div class="content" id="job-list-view">
+            <div class="job-list-container">
+                <div class="job-list-header">
+                    <h2>내 아르바이트 목록</h2>
+                    <button class="add-job-btn" id="add-job-btn">+</button>
+                </div>
+                <div class="job-list">
+                    <!-- 알바 목록이 비어있는 상태 -->
+                </div>
+            </div>
+        </div>
+        <div class="content" id="add-job-view" style="display: none;">
+            <h2 id="form-title">아르바이트 추가</h2>
+            <div class="job-form-container">
+                <form id="job-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">아르바이트 이름*</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="startTime">시작 시간* - 종료 시간*</label>
+                            <div class="time-range-container">
+                                <input type="time" id="startTime" name="startTime" required>
+                                <span>~</span>
+                                <input type="time" id="endTime" name="endTime" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="hourlyWage">시급 입력</label>
+                            <input type="number" id="hourlyWage" name="hourlyWage" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="payDay">급여 지급일 입력*</label>
+                            <select id="payDay" name="payDay" required>
+                                <option value="">선택하세요</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="repeatDays">반복 옵션 추가</label>
+                            <div id="repeatDays" class="repeat-options">
+                                <label><input type="checkbox" name="repeatDays" value="월"> 월</label>
+                                <label><input type="checkbox" name="repeatDays" value="화"> 화</label>
+                                <label><input type="checkbox" name="repeatDays" value="수"> 수</label>
+                                <label><input type="checkbox" name="repeatDays" value="목"> 목</label>
+                                <label><input type="checkbox" name="repeatDays" value="금"> 금</label>
+                                <label><input type="checkbox" name="repeatDays" value="토"> 토</label>
+                                <label><input type="checkbox" name="repeatDays" value="일"> 일</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>색상</label>
+                            <div class="color-options">
+                                <label class="color-box" style="background-color: red;"><input type="radio" name="color" value="red"></label>
+                                <label class="color-box" style="background-color: orange;"><input type="radio" name="color" value="orange"></label>
+                                <label class="color-box" style="background-color: yellow;"><input type="radio" name="color" value="yellow"></label>
+                                <label class="color-box" style="background-color: green;"><input type="radio" name="color" value="green"></label>
+                                <label class="color-box" style="background-color: blue;"><input type="radio" name="color" value="blue"></label>
+                                <label class="color-box" style="background-color: purple;"><input type="radio" name="color" value="purple"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="includesRestPay">주휴 수당  포함 여부</label>
+                            <input type="checkbox" id="includesRestPay" name="includesRestPay">
+                        </div>
+                    </div>
+                    <div class="form-buttons">
+                        <button type="button" id="cancel-btn" class="cancel-btn">취소</button>
+                        <button type="submit" class="submit-btn">확인</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
+
