@@ -1,0 +1,66 @@
+/* styles.css */
+
+/* 전체 팝업 컨테이너 */
+.alba-info-popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 20px;
+    width: 300px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* 팝업 헤더 */
+.popup-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+/* 팝업 내용 */
+.popup-content {
+    margin-bottom: 10px;
+}
+
+/* 팝업 푸터 */
+.popup-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* 닫기 버튼 */
+.close-btn {
+    background-color: transparent;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #aaa;
+}
+
+/* 입력 폼 스타일 */
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+/* 추가 버튼 */
+button[type="submit"] {
+    padding: 8px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button[type="submit"]:hover {
+    background-color: #0056b3;
+}
