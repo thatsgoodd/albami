@@ -1,0 +1,153 @@
+button {
+    cursor: pointer;
+}
+
+.container {
+    width: 700px;
+    height: 600px;
+    margin: auto;
+    padding: 40px 40px;
+    border: 1px solid rgba(128, 128, 128, 0.267);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.container .title {
+    display: flex;
+    font-family: Arial, sans-serif;
+}
+
+.container .title > button {
+    border: none;
+    margin-left: 5px;
+    height: 20px;
+    align-self: center;
+    background: none;
+    font-family: Arial, sans-serif;
+}
+
+.container .title .pagination {
+    margin-left: auto;
+    align-self: center;
+    font-family: Arial, sans-serif;
+}
+.container .title .pagination button {
+    margin: 0 10px;
+    border: none;
+    background: none;
+    font-family: Arial, sans-serif;
+}
+
+.container .week {
+    display: flex;
+    font-family: Arial, sans-serif;
+}
+
+.container .week .weekday {
+    width: calc(700px / 7);
+    text-align: center;
+    font-family: Arial, sans-serif;
+}
+
+.container .week .sunday {
+    color: red;
+}
+
+.container .week .saturday {
+    color: blue;
+}
+
+.container .date {
+    margin-top: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.container .date .weekday {
+    width: calc(700px / 7);
+    float: left;
+    text-align: center;
+    height: 50px;
+    line-height: 50px;
+    font-family: Arial, sans-serif;
+}
+
+.container .date .sunday {
+    color: red;
+}
+
+.container .date .saturday {
+    color: blue;
+}
+
+.container .date .today {
+    background-color: rgb(88, 111, 187);
+    color: white;
+    font-weight: 700;
+    border-radius: 50%;
+    font-family: Arial, sans-serif;
+}
+.totalMonthlySalary,
+.countdown-dropdown
+{
+    font-size: 15px;
+    font-family: Arial, sans-serif;/* 작은 글씨 크기 */
+}
+
+.totalMonthlySalary h2
+{
+    margin: 10px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;/* 작은 글씨 크기 */
+}
+
+.countdown-dropdown label {
+    margin: 10px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;/* 작은 글씨 크기 */
+}
+
+.countdown-dropdown select {
+    margin: 10px;
+    font-size: 15px;
+    font-family: Arial, sans-serif;/* 작은 글씨 크기 */
+}
+
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* Add this line to wrap the items if the screen is small */
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Add space between year and month selects */
+}
+
+.pagination {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.info {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Add space between elements */
+}
+
+
+.week {
+    display: flex; /* 주를 수평으로 배치하기 위해 flex 사용 */
+    align-items: center; /* 주별 요소들을 수직 중앙 정렬 */
+}
+
+.weekly-salary {
+    margin-left: auto;
+    font-size: 15px;
+    font-family: Arial, sans-serif;
+    /* 총 주급을 각 주의 오른쪽에 위치시킵니다. */
+}
